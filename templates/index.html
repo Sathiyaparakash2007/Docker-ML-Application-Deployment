@@ -1,103 +1,125 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Flower Prediction</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f7;
-            text-align: center;
-            padding: 40px 15px;
-        }
-
-        .card {
-            max-width: 520px;
-            margin: auto;
-            padding: 30px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px #0002;
-        }
-
-        h1 {
-            color: #1565c0;
-        }
-
-        input {
-            width: 90%;
-            padding: 12px;
-            margin: 8px;
-            box-sizing: border-box;
-        }
-
-        button {
-            padding: 12px 25px;
-            margin-top: 15px;
-            background: #1565c0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #dcfce7;
-            color: #166534;
-            border-radius: 8px;
-        }
-
-        .error {
-            margin-top: 20px;
-            color: #b91c1c;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iris Flower Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #edf3ff;
+      margin: 0;
+      padding: 30px;
+      color: #222;
+    }
+    .card {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 28px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px #0001;
+    }
+    h1 { color: #2446a6; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 22px;
+      border: 0;
+      border-radius: 8px;
+      background: #3156c9;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e5f8e9;
+      color: #176438;
+      border-radius: 8px;
+    }
+    .error {
+      margin-top: 20px;
+      color: #a11;
+    }
+    .version {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      margin-top: 22px;
+    }
+    @media(max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="card">
-        <h1>ML Flower Prediction</h1>
+  <main class="card">
+    <h1>Iris Flower Predictor</h1>
+    <p>Enter four measurements to predict the flower species.</p>
 
-        <p>Machine Learning using Flask and scikit-learn</p>
-        <p>Enter the Iris flower measurements in centimeters.</p>
-
-        <form method="POST">
-            <input type="number" name="sepal_length"
-                   placeholder="Sepal Length" min="0" max="10"
-                   step="any" required>
-
-            <input type="number" name="sepal_width"
-                   placeholder="Sepal Width" min="0" max="10"
-                   step="any" required>
-
-            <input type="number" name="petal_length"
-                   placeholder="Petal Length" min="0" max="10"
-                   step="any" required>
-
-            <input type="number" name="petal_width"
-                   placeholder="Petal Width" min="0" max="10"
-                   step="any" required>
-
-            <button type="submit">Predict Flower</button>
-        </form>
-
-        {% if prediction %}
-        <div class="result">
-            <h3>Predicted Species: {{ prediction }}</h3>
+    <form method="post">
+      <div class="grid">
+        <div>
+          <label for="sepal_length">Sepal Length (cm)</label>
+          <input id="sepal_length" name="sepal_length"
+                 type="number" min="0.1" max="10" step="any"
+                 required value="{{ values[0] }}">
         </div>
-        {% endif %}
+        <div>
+          <label for="sepal_width">Sepal Width (cm)</label>
+          <input id="sepal_width" name="sepal_width"
+                 type="number" min="0.1" max="10" step="any"
+                 required value="{{ values[1] }}">
+        </div>
+        <div>
+          <label for="petal_length">Petal Length (cm)</label>
+          <input id="petal_length" name="petal_length"
+                 type="number" min="0.1" max="10" step="any"
+                 required value="{{ values[2] }}">
+        </div>
+        <div>
+          <label for="petal_width">Petal Width (cm)</label>
+          <input id="petal_width" name="petal_width"
+                 type="number" min="0.1" max="10" step="any"
+                 required value="{{ values[3] }}">
+        </div>
+      </div>
 
-        {% if error %}
-        <div class="error">{{ error }}</div>
-        {% endif %}
+      <button type="submit">Predict Flower</button>
+    </form>
 
-        <p>Version: 1.0</p>
-        <p>GitHub + CodePipeline + CodeDeploy + Docker</p>
-    </div>
+    {% if prediction %}
+      <div class="result">
+        <strong>Predicted Species: {{ prediction }}</strong>
+      </div>
+    {% endif %}
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <p class="version">Version: 1.0</p>
+  </main>
 </body>
 </html>
+```
